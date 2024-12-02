@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+  <h1 class="text-light">PST Manager</h1>
+  
+  <!-- Upload PST File Form -->
+  <div class="card bg-dark text-light mb-4">
+    <div class="card-header">Upload PST File</div>
+    <div class="card-body">
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="mb-3">
+          <input type="file" class="form-control bg-dark text-light" name="pstFile" accept=".pst" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Upload PST</button>
+      </form>
+      <div id="uploadProgress" class="mt-3" style="display: none;">
+        <div class="progress bg-secondary">
+          <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- List of PST Files -->
+  <div class="card bg-dark text-light">
+    <div class="card-header">Your PST Files</div>
+    <div class="card-body">
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="pstFilesList">
+          <!-- PST files will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+<script src="/js/pst-manager.js"></script>
+
+<%- include('partials/footer') %>

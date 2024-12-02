@@ -11,6 +11,26 @@
             color: white !important;
             font-weight: bold;
         }
+        .dropdown-menu {
+            background-color: #343a40;
+            border-color: #454d55;
+        }
+        .dropdown-item {
+            color: #adb5bd;
+        }
+        .dropdown-item:hover, .dropdown-item:focus {
+            color: #fff;
+            background-color: #454d55;
+        }
+        .dropdown-item.active {
+            color: #fff;
+            background-color: #007bff;
+        }
+        @media (min-width: 992px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body class="bg-dark text-light">
@@ -26,8 +46,15 @@
                         <li class="nav-item">
                             <a class="nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>" href="/dashboard">Dashboard</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <%= currentPage === 'pubmigration' ? 'active' : '' %>" href="/pubmigration">Erweiterte Migration</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <%= ['pst-manager', 'pst-migration'].includes(currentPage) ? 'active' : '' %>" href="#" id="pstToolsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                PST Tools
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="pstToolsDropdown">
+                                <li><a class="dropdown-item <%= currentPage === 'pst-manager' ? 'active' : '' %>" href="/pst-manager">PST Manager</a></li>
+                                <li><a class="dropdown-item <%= currentPage === 'pst-migration' ? 'active' : '' %>" href="/pst-migration">PST Migration</a></li>
+                                <li><a class="dropdown-item <%= currentPage === 'pst-bulkmigration' ? 'active' : '' %>" href="/pst-bulkmigration">PST Bulk Migration</a></li>
+                            </ul>
                         </li>
                     <% } %>
                 </ul>

@@ -29,8 +29,12 @@ router.get('/dashboard', ensureAuthenticated, (req: CustomRequest, res: Response
   res.render('dashboard', { currentPage: 'dashboard' });
 });
 
-router.get('/pubmigration', ensureAuthenticated, (req: CustomRequest, res: Response) => {
-  res.render('pubmigration', { currentPage: 'pubmigration' });
+router.get('/pst-manager', ensureAuthenticated, (req: Request, res: Response) => {
+  res.render('pst-manager', { currentPage: 'pst-manager' });
+});
+
+router.get('/pst-migration', ensureAuthenticated, (req: CustomRequest, res: Response) => {
+  res.render('pst-migration', { currentPage: 'pst-migration' });
 });
 
 export default router;

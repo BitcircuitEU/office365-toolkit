@@ -1,5 +1,7 @@
 import { Client } from '@microsoft/microsoft-graph-client';
 import { ClientSecretCredential } from '@azure/identity';
+import fs from 'fs';
+import path from 'path';
 
 interface Session {
   tenantId?: string;
@@ -14,12 +16,14 @@ class AuthProvider {
   public isAuthenticated: boolean;
   private graphClient: Client | null;
   private organizationName: string | null;
+  private tenantFolder: string | null;
 
   constructor(session: Session) {
     this.session = session;
     this.isAuthenticated = false;
     this.graphClient = null;
     this.organizationName = null;
+    this.tenantFolder = null;
   }
 
   async initialize(): Promise<void> {
@@ -55,12 +59,16 @@ class AuthProvider {
       this.session.clientSecret = clientSecret;
       this.session.organizationName = this.organizationName || undefined;
 
+      // Create tenant folder
+      await this.createTenantFolder(tenantId);
+
       return true;
     } catch (error) {
       console.error('Login failed:', error);
       this.isAuthenticated = false;
       this.graphClient = null;
       this.organizationName = null;
+      this.tenantFolder = null;
       return false;
     }
   }
@@ -69,6 +77,7 @@ class AuthProvider {
     this.isAuthenticated = false;
     this.graphClient = null;
     this.organizationName = null;
+    this.tenantFolder = null;
 
     // Clear credentials from session
     delete this.session.tenantId;
@@ -81,12 +90,30 @@ class AuthProvider {
     return this.organizationName || this.session.organizationName || null;
   }
 
-  // Add this method to access the graphClient
   public getGraphClient(): Client {
     if (!this.graphClient) {
       throw new Error('Graph client is not initialized');
     }
     return this.graphClient;
+  }
+
+  private async createTenantFolder(tenantId: string): Promise<void> {
+    const pstFolderPath = path.resolve(__dirname, '../../pst');
+    const tenantFolderPath = path.join(pstFolderPath, tenantId);
+
+    try {
+      if (!fs.existsSync(tenantFolderPath)) {
+        await fs.promises.mkdir(tenantFolderPath, { recursive: true });
+      }
+      this.tenantFolder = tenantFolderPath;
+    } catch (error) {
+      console.error(`Error creating tenant folder: ${error}`);
+      throw error;
+    }
+  }
+
+  public getTenantFolder(): string | null {
+    return this.tenantFolder;
   }
 }
 

@@ -1,4 +1,4 @@
-import { PSTFile, PSTFolder, PSTMessage, PSTAttachment } from 'pst-extractor';
+import { PSTFile, PSTFolder, PSTMessage, PSTAttachment } from '@bitcircuit/pst-api';
 import path from 'path';
 
 const pstCache = new Map<string, PSTFile>();

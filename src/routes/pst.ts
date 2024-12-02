@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { createItemsInMailbox } from '../utils/mailboxUtils';
@@ -8,15 +9,43 @@ import AuthProvider from '../context/AuthContext';
 
 const router = express.Router();
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req: CustomRequest, file, cb) {
+    const authProvider = req.authProvider;
+    if (!authProvider) {
+      return cb(new Error('Authentication provider not found'), '');
+    }
+    const tenantFolder = authProvider.getTenantFolder();
+    if (!tenantFolder) {
+      return cb(new Error('Tenant folder not found'), '');
+    }
+    cb(null, tenantFolder);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
 // Extend the Request interface to include custom properties
 interface CustomRequest extends Request {
   authProvider?: AuthProvider;
 }
 
-// Route to list PST files
 router.get('/list-pst-files', ensureAuthenticated, (req: CustomRequest, res: Response) => {
-  const pstDir = path.resolve(__dirname, '../../pst'); // Adjust the path to the root directory
-  fs.readdir(pstDir, (err, files) => {
+  if (!req.authProvider) {
+    res.status(500).json({ error: 'Authentication provider is not initialized' });
+    return;
+  }
+  const tenantFolder = req.authProvider.getTenantFolder();
+  if (!tenantFolder) {
+    res.status(500).json({ error: 'Tenant folder not found' });
+    return;
+  }
+
+  fs.readdir(tenantFolder, (err, files) => {
     if (err) {
       console.error('Error reading PST directory:', err);
       res.status(500).send('Error reading PST files');
@@ -24,6 +53,50 @@ router.get('/list-pst-files', ensureAuthenticated, (req: CustomRequest, res: Res
     }
     const pstFiles = files.filter(file => path.extname(file).toLowerCase() === '.pst');
     res.json(pstFiles);
+  });
+});
+
+router.post('/upload-pst', ensureAuthenticated, (req: CustomRequest, res: Response) => {
+  upload.single('pstFile')(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json({ error: err.message });
+    } else if (err) {
+      return res.status(500).json({ error: 'An unknown error occurred when uploading.' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    res.json({ message: 'File uploaded successfully', filename: req.file.filename });
+  });
+});
+
+// Route to delete a PST file
+router.delete('/delete-pst/:filename', ensureAuthenticated, (req: CustomRequest, res: Response) => {
+  if (!req.authProvider) {
+    res.status(500).json({ error: 'Authentication provider is not initialized' });
+    return;
+  }
+  const tenantFolder = req.authProvider.getTenantFolder();
+  if (!tenantFolder) {
+    res.status(500).json({ error: 'Tenant folder not found' });
+    return;
+  }
+
+  const filename = req.params.filename;
+  const filePath = path.join(tenantFolder, filename);
+
+  console.log(filename);
+  console.log(tenantFolder);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error('Error deleting PST file:', err);
+      res.status(500).json({ error: 'Error deleting PST file' });
+      return;
+    }
+    res.json({ message: 'File deleted successfully' });
   });
 });
 

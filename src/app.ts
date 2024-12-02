@@ -1,12 +1,18 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import fs from 'fs';
 import session from 'express-session';
 import routes from './routes';
 import AuthProvider from './context/AuthContext';
 import ensureAuthenticated from './middleware/auth'; // Import the middleware
 
 const app = express();
+
+const pstFolderPath = path.join(__dirname, '..', 'pst');
+if (!fs.existsSync(pstFolderPath)) {
+  fs.mkdirSync(pstFolderPath);
+}
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
