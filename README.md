@@ -22,5 +22,21 @@ Web Based Office 365 Toolkit
 - Install dependencies `npm Install`
 - Run Script `npm start`
 
+## Azure App Permissions
+- Following App Permissions should be set for the Azure Application as Application Permission
+  ```
+  Calendars.ReadWrite
+  Mail.ReadWrite
+  Group.ReadWrite.All
+  MailboxFolder.ReadWrite.All
+  MailboxSettings.ReadWrite
+  ```
+
+## Tests
+- Tested with PST Files exported from Outlook 2019 & 365
+- Tested with PST Files exported from Exchange via Powershell Bulk Export
+- Tested with PST Files exported from 365 Compliance Center
+- Technically OST Files might work too, but have not been tested.
+
 ## Example Screens
 !["Migration Screen"](https://i.imgur.com/69qMfNd.png)
