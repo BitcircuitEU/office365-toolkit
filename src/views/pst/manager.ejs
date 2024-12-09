@@ -1,0 +1,91 @@
+  <%- include('../partials/header') %>
+
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">PST Manager</h1>
+  </div>
+
+  <% if (locals.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= error %>
+    </div>
+  <% } else { %>
+    <div class="row">
+          <div class="col-md-6 mb-4">
+              <div class="card">
+                  <div class="card-header">
+                      <h5 class="mb-0">Upload PST File</h5>
+                  </div>
+                  <div class="card-body">
+                      <form id="uploadForm" enctype="multipart/form-data">
+                          <div class="mb-3">
+                              <input type="file" class="form-control" name="pstFile" accept=".pst" required>
+                          </div>
+                          <button type="submit" class="btn btn-primary w-100">Upload PST</button>
+                      </form>
+                      <div id="uploadProgress" class="mt-3" style="display: none;">
+                          <div class="progress">
+                              <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+              <div class="card">
+                  <div class="card-header">
+                      <h5 class="mb-0">Your PST Files</h5>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-striped">
+                              <thead>
+                                  <tr>
+                                      <th>File Name</th>
+                                      <th>Actions</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="pstFilesList">
+                                  <!-- PST files will be dynamically inserted here -->
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-12">
+              <div class="card">
+                  <div class="card-header">
+                      <h5 class="mb-0">Log</h5>
+                  </div>
+                  <div class="card-body">
+                      <div id="logBox" style="height: 300px; overflow-y: auto; font-family: monospace;"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <% } %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const logBox = document.getElementById('logBox');
+    const userTableBody = document.getElementById('userTableBody');
+
+    socket.on('log', (message) => {
+        const logEntry = document.createElement('div');
+        logEntry.textContent = message;
+        logBox.appendChild(logEntry);
+        logBox.scrollTop = logBox.scrollHeight;
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+<script src="/js/pst-manager.js"></script>
+
+<%- include('../partials/footer') %>

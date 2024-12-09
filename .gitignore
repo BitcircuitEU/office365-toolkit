@@ -1,0 +1,5 @@
+node_modules
+dist
+src/pst
+.env
+package-lock.json

@@ -1,0 +1,44 @@
+{
+  "name": "office365-toolkit",
+  "version": "2.0.0",
+  "bin": "dist/app.js",
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "build": "tsc",
+    "package": "npm run build && pkg ."
+  },
+  "pkg": {
+    "assets": [
+      "node_modules/**/*",
+      "dist/**/*"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ]
+  },
+  "dependencies": {
+    "@azure/identity": "^4.5.0",
+    "@bitcircuit/pst-api": "^1.0.0",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "csv-parse": "^5.6.0",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1",
+    "pst-extractor": "^1.10.0",
+    "rtf-parser": "^1.3.3",
+    "rtf-stream-parser": "^3.8.0",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.1",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^14.18.63",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.2.3"
+  }
+}

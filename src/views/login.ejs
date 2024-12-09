@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office 365 Toolkit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #003747;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            background-color: #065465 !important;
+        }
+        .card {
+            background-color: #046276;
+            border-color: #06768d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #065465;
+            border-bottom-color: #06768d;
+        }
+        .form-control {
+            background-color: #026a81;
+            border-color: #06768d;
+            color: #ffffff;
+        }
+        .form-control:focus {
+            background-color: #026a81;
+            border-color: #06768d;
+            color: #ffffff;
+            box-shadow: 0 0 0 0.25rem rgba(6, 118, 141, 0.25);
+        }
+        .btn-primary {
+            background-color: #06768d;
+            border-color: #06768d;
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #065465;
+            border-color: #065465;
+        }
+        .btn-outline-info {
+            color: #06768d;
+            border-color: #06768d;
+        }
+        .btn-outline-info:hover {
+            background-color: #06768d;
+            color: #ffffff;
+        }
+        .modal-content {
+            background-color: #046276;
+            color: #ffffff;
+        }
+        .modal-header {
+            border-bottom-color: #06768d;
+        }
+        .modal-footer {
+            border-top-color: #06768d;
+        }
+        .btn-secondary {
+            background-color: #065465;
+            border-color: #065465;
+        }
+        .btn-secondary:hover {
+            background-color: #003747;
+            border-color: #003747;
+        }
+        a {
+            color: #06768d;
+        }
+        a:hover {
+            color: #026a81;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Bitcircuit - Office 365 Toolkit</a>
+        </div>
+    </nav>
+    <div class="container flex-grow-1 d-flex align-items-center">
+        <div class="row justify-content-center w-100">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center mb-0">Azure Tenant Login</h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (locals.error) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <%= error %>
+                            </div>
+                        <% } %>
+                        <form action="/login" method="POST">
+                            <div class="mb-3">
+                                <label for="tenantid" class="form-label">Tenant ID</label>
+                                <input type="text" class="form-control" id="tenantid" name="tenantid" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="clientid" class="form-label">Client ID</label>
+                                <input type="text" class="form-control" id="clientid" name="clientid" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="clientsecret" class="form-label">Client Secret</label>
+                                <input type="text" class="form-control" id="clientsecret" name="clientsecret" required>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="submit" class="btn btn-primary">Anmelden</button>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#helpModal">
+                                    <i class="fas fa-question-circle"></i> Hilfe
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">Azure App-Registrierung und Berechtigungen</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Wie registriert man eine Azure App?</h6>
+                    <ol>
+                        <li>Melden Sie sich beim <a href="https://portal.azure.com/" target="_blank">Azure Portal</a> an.</li>
+                        <li>Navigieren Sie zu "Azure Active Directory" > "App-Registrierungen" > "Neue Registrierung".</li>
+                        <li>Geben Sie einen Namen für Ihre Anwendung ein und wählen Sie die entsprechenden Optionen aus.</li>
+                        <li>Klicken Sie auf "Registrieren", um die App zu erstellen.</li>
+                    </ol>
+
+                    <h6>Erforderliche Berechtigungen:</h6>
+                    <ul>
+                        <li>Mail.ReadWrite</li>
+                        <li>Mail.Send</li>
+                        <li>User.Read</li>
+                        <li>User.ReadBasic.All</li>
+                    </ul>
+
+                    <p>Um diese Berechtigungen hinzuzufügen, gehen Sie zu Ihrer App-Registrierung > "API-Berechtigungen" > "Berechtigung hinzufügen" und wählen Sie die oben genannten Berechtigungen aus.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">PST Migrator</h1>
+</div>
+
+<% if (locals.error) { %>
+  <div class="alert alert-danger" role="alert">
+    <%= error %>
+  </div>
+<% } else { %>
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">PST File Selection</h5>
+        </div>
+        <div class="card-body">
+          <select id="pstFileSelect" class="form-control">
+            <option value="">Select a PST file</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Office 365 Mailbox Selection</h5>
+        </div>
+        <div class="card-body">
+          <select id="mailboxSelect" class="form-control">
+            <option value="">Select an Office 365 mailbox</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">PST Folder Structure</h5>
+        </div>
+        <div class="card-body">
+          <div id="pstLoadingSpinner" class="loading-spinner" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div id="pstTree"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Office 365 Folder Structure</h5>
+        </div>
+        <div class="card-body">
+          <div id="office365LoadingSpinner" class="loading-spinner" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div id="office365Tree"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 mb-4">
+      <button id="importButton" class="btn btn-primary w-100" style="display: none;">Import</button>
+    </div>
+  </div>
+
+  <div class="row" id="migrationContainer" style="display: none;">
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Migration Statistics</h5>
+        </div>
+        <div class="card-body">
+          <div id="migrationStats">
+            <p>Current Folder: <span id="currentFolderPath">-</span></p>
+            <p>Current File: <span id="currentFileName">-</span></p>
+            <p>Progress: <span id="currentFolder">-</span> / <span id="totalFolders">-</span> folders</p>
+            <p>Files: <span id="currentFile">-</span> / <span id="totalFiles">-</span></p>
+            
+            <div class="row">
+              <div class="col-md-4">
+                <h6>Folders:</h6>
+                <p>Created: <span id="foldersCreated">0</span><br>Skipped: <span id="foldersSkipped">0</span></p>
+              </div>
+              <div class="col-md-4">
+                <h6>Contactfolders:</h6>
+                <p>Created: <span id="contactfoldersCreated">0</span><br>Skipped: <span id="contactfoldersSkipped">0</span></p>
+              </div>
+              <div class="col-md-4">
+                <h6>Calendars:</h6>
+                <p>Created: <span id="calendarsCreated">0</span><br>Skipped: <span id="calendarsSkipped">0</span></p>
+              </div>
+            </div>
+            
+            <div class="row mt-3">
+              <div class="col-md-4">
+                <h6>E-Mails:</h6>
+                <p>Created: <span id="filesCreated">0</span><br>Skipped: <span id="filesSkipped">0</span></p>
+              </div>
+              <div class="col-md-4">
+                <h6>Events:</h6>
+                <p>Created: <span id="eventsCreated">0</span><br>Skipped: <span id="eventsSkipped">0</span></p>
+              </div>
+              <div class="col-md-4">
+                <h6>Contacts:</h6>
+                <p>Created: <span id="contactsCreated">0</span><br>Skipped: <span id="contactsSkipped">0</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Error Log</h5>
+        </div>
+        <div class="card-body">
+          <div id="logBox" style="height: 300px; overflow-y: auto;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+<script src="/js/pst-migrator.js"></script>
+
+<%- include('../partials/footer') %>
