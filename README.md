@@ -16,5 +16,11 @@ Web Based Office 365 Toolkit
   - Creates missing E-Mails (IPM.Note, IPM.Note.Draft)
   - Foldermapping via Folder Tree
 
+## How to Run
+- Install Node.JS LTS https://nodejs.org/en
+- Open CMD and go to project directory `cd path`
+- Install dependencies `npm Install`
+- Run Script `npm start`
+
 ## Example Screens
 !["Migration Screen"](https://i.imgur.com/69qMfNd.png)
