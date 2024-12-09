@@ -17,5 +17,4 @@ Web Based Office 365 Toolkit
   - Foldermapping via Folder Tree
 
 ## Example Screens
-!["Authentication Screen"](https://i.imgur.com/GHwOT7H.png)
-!["Extended" PST Migration](https://i.imgur.com/mGEPNDK.png)
+!["Migration Screen"](https://i.imgur.com/69qMfNd.png)
