@@ -16,6 +16,14 @@ Web Based Office 365 Toolkit
   - Creates missing E-Mails (IPM.Note, IPM.Note.Draft)
   - Foldermapping via Folder Tree
 
+
+# Coming Soon
+- Support for Contacts/Contactfolders
+- Support for Events/Calendars
+
+# Known Issues
+- If a Mail has Only rtf content we try to parse and convert it to html as rtf body is not supported by graph api. Some Rtf bodys can't be converted with the current parser and throw errors, this mails might be skipped or have an empty body
+
 ## How to Run
 - Install Node.JS LTS https://nodejs.org/en
 - Open CMD and go to project directory `cd path`

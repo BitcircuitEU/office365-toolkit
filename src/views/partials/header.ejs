@@ -43,7 +43,7 @@
                             <a class="nav-link" href="#pstSubmenu" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="pstSubmenu">
                                 <i class="fas fa-envelope"></i> PST Optionen
                             </a>
-                            <ul class="collapse <%= ['pst/manager', 'pst/migrator'].includes(currentPage) ? 'show' : '' %> nav flex-column" id="pstSubmenu">
+                            <ul class="collapse <%= currentPage.includes('pst/') ? 'show' : '' %> nav flex-column" id="pstSubmenu">
                                 <li class="nav-item">
                                     <a class="nav-link <%= currentPage === 'pst/manager' ? 'active' : '' %>" href="/pst/manager">
                                         <i class="fas fa-cog"></i> PST Manager
@@ -52,6 +52,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link <%= currentPage === 'pst/migrator' ? 'active' : '' %>" href="/pst/migrator">
                                         <i class="fas fa-exchange-alt"></i> PST Migrator
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link <%= currentPage === 'pst/bulkmigrator' ? 'active' : '' %>" href="/pst/bulkmigrator">
+                                        <i class="fas fa-users"></i> PST Bulk Migrator
                                     </a>
                                 </li>
                             </ul>
