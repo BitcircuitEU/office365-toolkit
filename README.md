@@ -22,7 +22,7 @@ Web Based Office 365 Toolkit
 - Support for Events/Calendars
 
 # Known Issues
-- If a Mail has Only rtf content we try to parse and convert it to html as rtf body is not supported by graph api. Some Rtf bodys can't be converted with the current parser and throw errors, this mails might be skipped or have an empty body
+- If a Mail has Only rtf content we try to parse and convert it to html as rtf body is not supported by graph api. Some Rtf bodies can't be converted with the current parser and throw errors, this mails might be skipped or have an empty body
 
 ## How to Run
 - Install Node.JS LTS https://nodejs.org/en

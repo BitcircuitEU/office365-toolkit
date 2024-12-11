@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">PST Bulk Migrator</h1>
+</div>
+
+<% if (locals.error) { %>
+  <div class="alert alert-danger" role="alert">
+    <%= error %>
+  </div>
+<% } else { %>
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Mailbox and PST Assignment</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Office 365 Mailbox</th>
+                <th>Assigned PST File</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="mailboxList">
+              <!-- Mailboxes will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-12 mb-4">
+      <button id="startMigrationBtn" class="btn btn-primary" disabled>Start Bulk Migration</button>
+    </div>
+  </div>
+  
+  <div class="row" id="migrationProgressContainer" style="display: none;">
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Migration Progress</h5>
+        </div>
+        <div class="card-body">
+          <div id="migrationProgress"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+<script src="/js/pst/bulkmigrator.js"></script>
+
+<%- include('../partials/footer') %>

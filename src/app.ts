@@ -66,18 +66,7 @@ app.use('/socket.io', express.static(path.join(__dirname, 'node_modules/socket.i
 app.use(routes);
 
 // Express GET
-app.get('/', (req: CustomRequest, res: Response) => {
-  if (req.authProvider?.isAuthenticated) {
-    res.redirect('/dashboard');
-  } else {
-    res.render('login');
-  }
-});
 
-// Protect the dashboard route
-app.get('/dashboard', ensureAuthenticated, (req: CustomRequest, res: Response) => {
-  res.render('dashboard');
-});
 
 async function startServer() {
   await initializeLicenseMap();
